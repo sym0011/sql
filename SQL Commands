@@ -1,0 +1,961 @@
+
+20UCS3CC6P		RDBMS LAB			II BSc  -  D
+
+1 1.TABLE CREATION:	PRIMARY KEY
+SQL> create table mark(rollno number(5) primary key,sname char(10),mark1 number(3),mark2 number(3),mark3 number(3));
+Table created.
+SQL> desc mark;
+Name	Null?	Type
+
+ROLLNO	NOT NULL NUMBER(5) SNAME		CHAR(10)
+MARK1	NUMBER(3)
+MARK2	NUMBER(3)
+MARK3	NUMBER(3)
+SQL> create table dept(registerno number(10) primary key,sname char(10),rollno number(5),percentage number(3));
+Table created.
+SQL> desc dept;
+Name	Null?	Type
+
+REGISTERNO	NOT NULL NUMBER(10) SNAME	CHAR(10)
+ROLLNO                                    NUMBER(5)
+PERCENTAGE                          NUMBER(3)
+Table creation:candidate key
+SQL> create table stud(rollno number(5) not null,class char(6) not null,sname char(10),mark1 number(3),mark2 number(3),mark3 number(3),constraint student_uq unique(rollno,class));
+Table created.
+SQL> desc stud;
+Name	Null?	Type
+
+ROLLNO	NOT NULL NUMBER(5) CLASS	NOT NULL CHAR(6) SNAME			CHAR(10)
+MARK1	NUMBER(3)
+MARK2	NUMBER(3)
+MARK3	NUMBER(3)
+ 
+Table creation: foreign key
+SQL> create table person(p_id number(4) primary key,pname varchar(10),city varchar(10)); Table created.
+SQL> desc person;
+Name	Null?	Type
+
+P_ID	NOT NULL NUMBER(4)
+PNAME	VARCHAR2(10)
+CITY	VARCHAR2(10)
+SQL> create table orders(o_id number(2) primary key,order_name varchar(10),s_id number(4),foreign key(s_id)references person(p_id)on delete cascade);
+Table created.
+SQL> desc orders;
+
+Name	Null?	Type
+O_ID		NOT NULL NUMBER(2)
+ORDER_NAME
+S_ID		VARCHAR2(10)
+NUMBER(4)
+SQL> insert into person values(&p_id,'&p_name','&city'); Enter value for p_id: 1
+Enter value for p_name: mayura Enter value for city: mumbai
+old	1: insert into person values(&p_id,'&p_name','&city') new		1: insert into person values(1,'mayura','mumbai')
+1 row created.
+SQL>	insert into person values(&p_id,'&p_name','&city'); Enter value for p_id: 2
+Enter value for p_name: jai Enter value for city: chennai
+old	1:	insert into person values(&p_id,'&p_name','&city') new		1:		insert into person values(2,'jai','chennai')
+1 row created.
+SQL>	insert into person values(&p_id,'&p_name','&city'); Enter value for p_id: 3
+Enter value for p_name: aurora Enter value for city: delhi
+old	1:	insert into person values(&p_id,'&p_name','&city') new		1:		insert into person values(3,'aurora','delhi')
+1 row created.
+SQL> select *from person; P_ID PNAME	CITY
+
+1	mayura	mumbai
+2	jai	chennai
+3	aurora	delhi
+ 
+SQL> insert into orders values(&o_id,'&order_name',&s_id); Enter value for o_id: 1
+Enter value for order_name: liril Enter value for s_id: 2
+old	1: insert into orders values(&o_id,'&order_name',&s_id) new		1: insert into orders values(1,'liril',2)
+1 row created.
+SQL> insert into orders values(&o_id,'&order_name',&s_id); Enter value for o_id: 2
+Enter value for order_name: lux Enter value for s_id: 2
+old	1: insert into orders values(&o_id,'&order_name',&s_id) new		1: insert into orders values(2,'lux',2)
+1 row created.
+SQL> insert into orders values(&o_id,'&order_name',&s_id); Enter value for o_id: 3
+Enter value for order_name: hamam Enter value for s_id: 3
+old	1: insert into orders values(&o_id,'&order_name',&s_id) new		1: insert into orders values(3,'hamam',3)
+1 row created.
+SQL> insert into orders values(&o_id,'&order_name',&s_id); Enter value for o_id: 4
+Enter value for order_name: dettol Enter value for s_id: 1
+old	1: insert into orders values(&o_id,'&order_name',&s_id) new		1: insert into orders values(4,'dettol',1)
+1 row created.
+SQL> select * from orders;
+O_ID ORDER_NAME	S_ID
+
+1		liril		2
+2		lux		2
+3		hamam		3
+4		dettol		1
+SQL> delete from person where p_id=3; 1 row deleted.
+SQL> select * from orders; O_ID ORDER_NAME	S_ID
+
+1	liril	2
+2	lux	2
+4 dettol	1
+SQL> select *from person;
+P_ID	PNAME	CITY
+1	mayura	mumbai
+2	jai	chennai
+ 
+1.2.TABLE ALTERATION:
+Rename table name:
+SQL> alter table mark rename to mark1; Table altered.
+SQL> desc mark;
+Name	Null?	Type
+
+
+ROLLNO	NOT NULL NUMBER(5) SNAME		CHAR(10)
+MARK1	NUMBER(3)
+MARK2	NUMBER(3)
+MARK3	NUMBER(3)
+Rename column name:
+SQL> alter table mark1 rename column sname to stuname; Table altered.
+SQL> desc mark;
+Name	Null?	Type
+
+ROLLNO	NOT NULL NUMBER(5) STUNAME		CHAR(10)
+MARK1	NUMBER(3)
+MARK2	NUMBER(3)
+MARK3	NUMBER(3)
+Add column:
+SQL> alter table mark1 add(total number(3)); Table altered.
+SQL> desc mark1;
+Name	Null?	Type
+
+ROLLNO	NOT NULL NUMBER(5) STUNAME		CHAR(10)
+MARK1	NUMBER(3)
+MARK2	NUMBER(3)
+MARK3	NUMBER(3)
+TOTAL	NUMBER(3)
+
+
+Drop column:
+SQL> alter table mark1 drop column total; Table altered.
+SQL> desc mark1;
+Name	Null?	Type
+
+
+ROLLNO	NOT NULL NUMBER(5)
+STUNAME	VARCHAR2(15)
+MARK1	NUMBER(3)
+MARK2	NUMBER(3)
+MARK3	NUMBER(3)
+Modify column size and data type:
+SQL> alter table mark1 modify stuname varchar(15); Table altered.
+SQL> desc mark1;
+Name	Null?	Type
+
+
+ROLLNO	NOT NULL NUMBER(5)
+STUNAME	VARCHAR2(15)
+MARK1	NUMBER(3)
+MARK2	NUMBER(3)
+MARK3	NUMBER(3)
+TOTAL	NUMBER(3)
+ 
+
+
+1.3.DROP TABLE:
+SQL> create table lili(regno number(5) primary key,stuname char(15),mark1 number(3),mark2 number(3));
+Table created.
+
+
+SQL> desc lili;
+Name	Null?	Type
+
+
+REGNO	NOT NULL NUMBER(5) STUNAME		CHAR(15)
+MARK1	NUMBER(3)
+MARK2	NUMBER(3)
+
+
+SQL> drop table lili;
+Table dropped.
+ 
+2.1.INSERTION:
+SQL> insert into dept values(&regno,'&sname',&rollno,&percetage); Enter value for regno: 1402
+Enter value for sname: nancy Enter value for rollno: 102 Enter value for percetage: 81
+old	1: insert into dept values(&regno,'&sname',&rollno,&percetage) new		1: insert into dept values(1402,'nancy',102,81)
+1 row created.
+SQL> insert into dept values(&regno,'&sname',&rollno,&percetage); Enter value for regno: 1404
+Enter value for sname: affrin Enter value for rollno: 104 Enter value for percetage: 78
+old	1: insert into dept values(&regno,'&sname',&rollno,&percetage) new		1: insert into dept values(1404,'affrin',104,78)
+1 row created.
+SQL> insert into dept values(&regno,'&sname',&rollno,&percetage); Enter value for regno: 1405
+Enter value for sname: willy Enter value for rollno: 105 Enter value for percetage: 80
+old	1: insert into dept values(&regno,'&sname',&rollno,&percetage) new		1: insert into dept values(1405,'willy',105,80)
+1 row created.
+SQL> insert into dept values(&regno,'&sname',&rollno,&percetage); Enter value for regno: 1406
+Enter value for sname: john Enter value for rollno: 106 Enter value for percetage: 75
+old	1: insert into dept values(&regno,'&sname',&rollno,&percetage) new		1: insert into dept values(1406,'john',106,75)
+1 row created.
+SQL> insert into dept values(&regno,'&sname',&rollno,&percetage); Enter value for regno: 1407
+Enter value for sname: fathima Enter value for rollno: 107 Enter value for percetage: 85
+old	1: insert into dept values(&regno,'&sname',&rollno,&percetage) new		1: insert into dept values(1407,'fathima',107,85)
+1 row created.
+SQL> select * from dept;
+REGNO	SNAME	ROLLNO PERCENTAGE
+
+1402		nancy		102	81
+1404		affrin		104	78
+1405		willy		105	80
+1406		john		106	75
+1407		fathima		107	85
+ 
+2.2.UPDATE:
+
+
+SQL> select * from dept;
+
+
+REGNO SNAME	ROLLNO PERCENTAGE
+
+
+1402 nancy	102	81
+1404 affrin	104	78
+1405 willy	105	80
+1406 john	106	75
+1407 fathima	107	85
+
+
+
+SQL> update dept set percentage=85 where rollno=106; 1 row updated.
+
+SQL> select * from dept;
+REGNO SNAME	ROLLNO PERCENTAGE
+
+
+1402 nancy	102	81
+1404 affrin	104	78
+1405 willy	105	80
+1406 john	106	85
+1407 fathima	107	85
+
+
+
+
+
+
+
+
+
+
+
+
+
+2.3. String Operation (Like, Not Like):
+SQL> create table customers(id int not null,name varchar(10) not null,age int not null,address char(10),salary decimal(6),primary key(id));
+Table created.
+SQL> insert into customers values(&id,'&name',&age,'&address',&salary); Enter value for id: 1
+Enter value for name: ramesh Enter value for age: 32
+Enter value for address: ahmedabad Enter value for salary: 2000
+old	1: insert into customers values(&id,'&name',&age,'&address',&salary) new		1: insert into customers values(1,'ramesh',32,'ahmedabad',2000)
+1 row created.
+SQL> /
+Enter value for id: 2
+Enter value for name: khilan Enter value for age: 25
+Enter value for address: delhi Enter value for salary: 1502
+old	1: insert into customers values(&id,'&name',&age,'&address',&salary) new		1: insert into customers values(2,'khilan',25,'delhi',1502)
+1 row created.
+SQL> /
+Enter value for id: 3
+Enter value for name: kaushik Enter value for age: 23
+Enter value for address: kota Enter value for salary: 2000
+old	1: insert into customers values(&id,'&name',&age,'&address',&salary) new		1: insert into customers values(3,'kaushik',23,'kota',2000)
+1 row created.
+
+SQL> /
+Enter value for id: 4
+Enter value for name: chaitali Enter value for age: 25
+Enter value for address: mumbai Enter value for salary: 6200
+old	1: insert into customers values(&id,'&name',&age,'&address',&salary) new		1: insert into customers values(4,'chaitali',25,'mumbai',6200)
+1 row created.
+ 
+SQL> /
+Enter value for id: 5
+Enter value for name: hardik Enter value for age: 27
+Enter value for address: bhopal Enter value for salary: 8203
+old	1: insert into customers values(&id,'&name',&age,'&address',&salary) new		1: insert into customers values(5,'hardik',27,'bhopal',8203)
+1 row created.
+
+SQL> /
+Enter value for id: 6
+Enter value for name: komal Enter value for age: 22 Enter value for address: mp Enter value for salary: 4203
+old	1: insert into customers values(&id,'&name',&age,'&address',&salary) new		1: insert into customers values(6,'komal',22,'mp',4203)
+1 row created.
+
+SQL> /
+Enter value for id: 7
+Enter value for name: muffy Enter value for age: 24
+Enter value for address: indore Enter value for salary: 10002
+old	1: insert into customers values(&id,'&name',&age,'&address',&salary) new		1: insert into customers values(7,'muffy',24,'indore',10002)
+1 row created.
+
+SQL> select *from customers;
+ID NAME	AGE ADDRESS	SALARY
+
+
+1 ramesh	32 ahmedabad	2000
+2 khilan	25 delhi	1502
+3 kaushik	23 kota	2000
+4 chaitali	25 mumbai	6200
+5 hardik	27 bhopal	8203
+6 komal	22 mp	4203
+7 muffy	24 indore	10002
+
+7 rows selected.
+ 
+SQL> select *from customers where salary like '20%';
+ID NAME	AGE ADDRESS	SALARY
+1 ramesh	32 ahmedabad	2000
+3 kaushik	23 kota	2000
+
+SQL> select *from customers where salary like '%20%'; ID NAME	AGE ADDRESS SALARY
+
+
+1 ramesh	32 ahmedabad	2000
+3 kaushik	23 kota	2000
+4 chaitali	25 mumbai	6200
+5 hardik	27 bhopal	8203
+6 komal	22 mp	4203
+
+SQL> select *from customers where salary like  2	'_00%';
+ID NAME	AGE ADDRESS	SALARY
+
+
+1 ramesh	32 ahmedabad	   2000
+3 kaushik	23 kota	2000
+7 muffy	24 indore	10002
+
+SQL> select *from customers where salary like 2	'2_%_%';
+ID NAME	AGE ADDRESS	SALARY
+
+1 ramesh	32 ahmedabad	2000
+3 kaushik	23 kota	2000
+SQL> select *from customers where salary not like'%2'; 
+ID NAME	AGE ADDRESS	SALARY
+
+
+1 ramesh	32 ahmedabad	2000
+3 kaushik	23 kota	2000
+4 chaitali	25 mumbai	6200
+5 hardik	27 bhopal	8203
+6 komal	22 mp	4203
+		
+SQL> select *from customers where salary not like '_2%3'; 
+ID NAME	AGE ADDRESS	SALARY
+         
+1 ramesh	
+32 ahmedabad	
+2000
+2 khilan	25 delhi	1502
+3 kaushik	23 kota	2000
+4 chaitali	25 mumbai	6200
+7 muffy	24 indore	10002
+
+
+2.4.SET OPERATION:
+SQL> create table frst(id number(3),name char(25),age number(2)); Table created.
+SQL> insert into frst values(&id,'&name',&age); Enter value for id: 1
+Enter value for name: rani Enter value for age: 25
+old	1: insert into frst values(&id,'&name',&age) new		1: insert into frst values(1,'rani',25)
+1 row created.
+
+SQL> /
+Enter value for id: 2 Enter value for name: raji Enter value for age: 35
+old	1: insert into frst values(&id,'&name',&age) new		1: insert into frst values(2,'raji',35)
+1 row created.
+
+SQL> /
+Enter value for id: 3 Enter value for name: viji Enter value for age: 25
+old	1: insert into frst values(&id,'&name',&age) new		1: insert into frst values(3,'viji',25)
+1 row created.
+
+SQL> /
+Enter value for id: 4
+Enter value for name: nancy Enter value for age: 35
+old	1: insert into frst values(&id,'&name',&age) new		1: insert into frst values(4,'nancy',35)
+1 row created.
+
+SQL> create table scond(id number(3),name char(25),age number(2)); Table created.
+
+SQL> insert into scond values(&id,'&name',&age); Enter value for id: 2
+Enter value for name: raji Enter value for age: 35
+old	1: insert into scond values(&id,'&name',&age) new		1: insert into scond values(2,'raji',35)
+1 row created.
+ 
+SQL> /
+Enter value for id: 3 Enter value for name: viji Enter value for age: 25
+old	1: insert into scond values(&id,'&name',&age) new		1: insert into scond values(3,'viji',25)
+1 row created.
+
+SQL> /
+Enter value for id: 5
+Enter value for name: ramu Enter value for age: 35
+old	1: insert into scond values(&id,'&name',&age) new		1: insert into scond values(5,'ramu',35)
+1 row created.
+
+SQL> /
+Enter value for id: 4
+Enter value for name: nancy Enter value for age: 30
+old	1: insert into scond values(&id,'&name',&age) new		1: insert into scond values(4,'nancy',30)
+1 row created.
+
+SQL> select*from frst;
+ID NAME	AGE
+
+
+1 rani	25
+2 raji	35
+3 viji	25
+4 nancy	35
+
+SQL> select*from scond;
+ID NAME	AGE
+
+
+2 raji	35
+3 viji	25
+5 ramu	35
+4 nancy	30
+ 
+SQL> select*from frst union select *from scond;
+ID NAME	AGE
+
+
+1 rani	25
+2 raji	35
+3 viji	25
+4 nancy	30
+4 nancy	35
+5 ramu	35
+
+6 rows selected.
+SQL> select *from frst union all select *from scond;
+ID NAME	AGE
+
+
+1 rani	25
+2 raji	35
+3 viji	25
+4 nancy	35
+2 raji	35
+3 viji	25
+5 ramu	35
+4 nancy	30
+
+8 rows selected.
+SQL> select * from frst intersect select *from scond;
+ID NAME	AGE
+
+
+2	raji	35
+3	viji	25
+SQL> select *from frst minus select *from scond;
+ID NAME	AGE
+1 rani	25
+4 nancy	35
+ 
+2.5.TUPLE VARIABLES:
+SQL> create table fir(id number(3),name char(25),age number(2)); Table created.
+SQL> insert into fir values(&id,'&name',&age); Enter value for id: 1
+Enter value for name: nancy Enter value for age: 25
+old	1: insert into fir values(&id,'&name',&age) new		1: insert into fir values(1,'nancy',25)
+1 row created.
+SQL>	insert into fir values(&id,'&name',&age); Enter value for id: 2
+Enter value for name: viji Enter value for age: 35
+old	1:	insert into fir values(&id,'&name',&age) new		1:		insert into fir values(2,'viji',35)
+1 row created.
+SQL> select *from fir;
+ID NAME	AGE
+
+1	nancy	25
+2	viji	35
+SQL> create table sec(id number(3),name char(25),age number(2)); Table created.
+SQL> insert into sec values(&id,'&name',&age); Enter value for id: 2
+Enter value for name: nancy Enter value for age: 35
+old	1: insert into sec values(&id,'&name',&age) new		1: insert into sec values(2,'nancy',35)
+1 row created.
+SQL> insert into sec values(&id,'&name',&age); Enter value for id: 4
+Enter value for name: viji Enter value for age: 30
+old	1: insert into sec values(&id,'&name',&age) new		1: insert into sec values(4,'viji',30)
+1 row created.
+SQL> select *from sec;
+ID NAME	AGE
+
+2 nancy	35
+4 viji	30
+SQL> select f.id,s.age from fir f,sec s where f.id=s.id; ID	AGE
+2	35
+ 
+2.6. AGGREATE FUNCTIONS WITH GROUPING AND HAVING CLAUSE:
+SQL> create table emplyee(empid number(4),ename char(25),deptid number(4),salary number(6));
+Table created.
+SQL> insert into emplyee values(&empid,'&ename',&deptid,&salary); Enter value for empid: 1001
+Enter value for ename: john Enter value for deptid: 2 Enter value for salary: 4000
+old	1: insert into emplyee values(&empid,'&ename',&deptid,&salary) new		1: insert into emplyee values(1001,'john',2,4000)
+1 row created.
+SQL> /
+Enter value for empid: 1002 Enter value for ename: anu Enter value for deptid: 1 Enter value for salary: 3500
+old	1: insert into emplyee values(&empid,'&ename',&deptid,&salary) new		1: insert into emplyee values(1002,'anu',1,3500)
+1 row created.
+SQL> /
+Enter value for empid: 1003 Enter value for ename: banu Enter value for deptid: 1 Enter value for salary: 2500
+old	1: insert into emplyee values(&empid,'&ename',&deptid,&salary) new		1: insert into emplyee values(1003,'banu',1,2500)
+1 row created.
+SQL> /
+Enter value for empid: 1004 Enter value for ename: david Enter value for deptid: 2 Enter value for salary: 5000
+old	1: insert into emplyee values(&empid,'&ename',&deptid,&salary) new		1: insert into emplyee values(1004,'david',2,5000)
+1 row created.
+SQL> /
+Enter value for empid: 1005 Enter value for ename: willy Enter value for deptid: 2 Enter value for salary: 3000
+old	1: insert into emplyee values(&empid,'&ename',&deptid,&salary) new		1: insert into emplyee values(1005,'willy',2,3000)
+1 row created.
+ 
+SQL> /
+Enter value for empid: 1006 Enter value for ename: vijay Enter value for deptid: 3 Enter value for salary: 4500
+old	1: insert into emplyee values(&empid,'&ename',&deptid,&salary) new		1: insert into emplyee values(1006,'vijay',3,4500)
+1 row created.
+SQL> /
+Enter value for empid: 1007 Enter value for ename: nancy Enter value for deptid: 3 Enter value for salary: 3500
+old	1: insert into emplyee values(&empid,'&ename',&deptid,&salary) new		1: insert into emplyee values(1007,'nancy',3,3500)
+1 row created.
+SQL> select *from emplyee;
+EMPID ENAME	DEPTID	SALARY
+
+
+1001 john	2	4000
+1002 anu	1	3500
+1003 banu	1	2500
+1004 david	2	5000
+1005 willy	2	3000
+1006 vijay	3	4500
+1007 nancy	3	3500
+7 rows selected.
+SQL> select deptid,avg(salary) from emplyee group by deptid having avg(salary)>3000;
+DEPTID AVG(SALARY)
+
+2	4000
+3	4000
+SQL> select min(salary)from emplyee;
+MIN(SALARY)
+
+2500
+SQL> select max(salary)from emplyee;
+MAX(SALARY)
+
+5000
+SQL> select count(*) empid from emplyee where deptid=2;
+EMPID
+
+3
+SQL> select sum(salary)from emplyee;
+SUM(SALARY)
+
+26000
+2.7.ORDERING TUPLES:
+SQL> create table empl(employeeid number(4),ename char(25),deptid number(4),salary number(6));
+Table created.
+SQL> insert into empl values(&employeeid,'&ename',&deptid,&salary); Enter value for employeeid: 1001
+Enter value for ename: john Enter value for deptid: 2 Enter value for salary: 4000
+old	1: insert into empl values(&employeeid,'&ename',&deptid,&salary) new		1: insert into empl values(1001,'john',2,4000)
+1 row created.
+SQL> insert into empl values(&employeeid,'&ename',&deptid,&salary); Enter value for employeeid: 1002
+Enter value for ename: anu Enter value for deptid: 1 Enter value for salary: 3500
+old	1: insert into empl values(&employeeid,'&ename',&deptid,&salary) new		1: insert into empl values(1002,'anu',1,3500)
+1 row created.
+SQL> insert into empl values(&employeeid,'&ename',&deptid,&salary); Enter value for employeeid: 1003
+Enter value for ename: banu Enter value for deptid: 1 Enter value for salary: 2500
+old	1: insert into empl values(&employeeid,'&ename',&deptid,&salary) new		1: insert into empl values(1003,'banu',1,2500)
+1 row created.
+SQL> /
+Enter value for employeeid: 1004 Enter value for ename: david Enter value for deptid: 2
+Enter value for salary: 5000
+old	1: insert into empl values(&employeeid,'&ename',&deptid,&salary) new		1: insert into empl values(1004,'david',2,5000)
+1 row created.
+SQL> /
+Enter value for employeeid: 1005 Enter value for ename: willy Enter value for deptid: 2
+Enter value for salary: 3000
+old	1: insert into empl values(&employeeid,'&ename',&deptid,&salary) new		1: insert into empl values(1005,'willy',2,3000)
+1 row created.
+ 
+SQL> /
+Enter value for employeeid: 1006 Enter value for ename: vijay Enter value for deptid: 3
+Enter value for salary: 4500
+old	1: insert into empl values(&employeeid,'&ename',&deptid,&salary) new		1: insert into empl values(1006,'vijay',3,4500)
+1 row created.
+SQL> /
+Enter value for employeeid: 1007 Enter value for ename: nancy Enter value for deptid: 3
+Enter value for salary: 3500
+old	1: insert into empl values(&employeeid,'&ename',&deptid,&salary) new		1: insert into empl values(1007,'nancy',3,3500)
+1 row created.
+
+SQL> select * from empl order by ename ASC; EMPLOYEEID ENAME	DEPTID	SALARY
+
+
+1002 anu	1	3500
+1003 banu	1	2500
+1004 david	2	5000
+1001 john	2	4000
+1007 nancy	3	3500
+1006 vijay	3	4500
+1005 willy	2	3000
+
+7 rows selected.
+SQL> select * from empl order by ename DESC; EMPLOYEEID ENAME	DEPTID	SALARY
+
+
+1005 willy	2	3000
+1006 vijay	3	4500
+1007 nancy	3	3500
+1001 john	2	4000
+1004 david	2	5000
+1003 banu	1	2500
+1002 anu	1	3500
+7 rows selected.		
+ 
+2 .8.NESTED SUBQUERIES:
+SQL> select *from emplyee where deptid in(1,2);
+
+EMPID ENAME	DEPTID	SALARY
+1001 john	2	4000
+1002 anu	1	3500
+1003 banu	1	2500
+1004 david	2	5000
+1005 willy	2	3000
+SQL> select *from emplyee where deptid not in(1,2);
+
+EMPID ENAME	DEPTID	SALARY
+1006 vijay	3	4500
+1007 nancy	3	3500
+SQL> select * from emplyee where salary>all(2000,3000);
+
+EMPID ENAME	DEPTID	SALARY
+1001 john	2	4000
+1002 anu	1	3500
+1004 david	2	5000
+1006 vijay	3	4500
+1007 nancy	3	3500
+SQL> select * from emplyee where salary>some(2000,3000);
+EMPID ENAME	DEPTID	SALARY
+
+
+1001 john	2	4000
+1002 anu	1	3500
+1003 banu	1	2500
+1004 david	2	5000
+1005 willy	2	3000
+1006 vijay	3	4500
+1007 nancy	3	3500
+
+7 rows selected.
+ 
+2 .9. DELETION:
+SQL> select *from dept;
+REGNO SNAME	ROLLNO PERCENTAGE
+
+
+1402 nancy	102	81
+1404 affrin	104	78
+1405 willy	105	80
+1406 john	106	85
+1407 fathima	107	85
+
+
+SQL> delete from dept where rollno=107; 1 row deleted.
+
+SQL> select *from dept;
+REGNO SNAME	ROLLNO PERCENTAGE
+
+
+1402 nancy	102	81
+1404 affrin	104	78
+1405 willy	105	80
+1406 john	106	85
+
+
+SQL> delete from dept; 4 rows deleted.
+SQL> select *from dept; no rows selected
+ 
+2 .10.JOIN OPERATION:
+SQL> create table agentt(agent_id number(5),agent_name char(10),agent_city char(10)); Table created.
+SQL> desc agentt;
+
+Name	Null?	Type
+
+AGENT_ID		
+NUMBER(5)
+AGENT_NAME
+AGENT_CITY		CHAR(10)
+CHAR(10)
+SQL> insert into agentt values(3,'ajith','allahabd'); 1 row created.
+SQL> insert into agentt values(7,'james','london'); 1 row created.
+SQL> insert into agentt values(11,'prabas','patna'); 1 row created.
+SQL> select * from agentt;
+AGENTT_ID AGENTT_NAM AGENTT_CIT
+
+
+3 ajith	allahabd
+7 james	london
+11 prabas	patna
+SQL> create table custo(custo_id number(5),first_name char(10),last_name char(10)); Table created.
+SQL> insert into custo values(1,'aryan','tomar'); 1 row created.
+SQL> insert into custo values(2,'ajith','maurya'); 1 row created.
+SQL> insert into custo values(3,'richa','goyal'); 1 row created.
+SQL> insert into custo values(4,'dhirubhai','jotwani'); 1 row created.
+ 
+SQL> select * from custo;
+CUSTO_ID FIRST_NAME LAST_NAME
+
+
+1	aryan	tomar
+2	ajith	maurya
+3	richa	goyal
+4	dhirubhai	jotwani
+
+SQL> select agentt.agentt_city,custo.last_name,custo.first_name from agentt,custo where agentt.agentt_id=custo.custo_id; AGENTT_CIT LAST_NAME FIRST_NAME
+
+
+allahabd	goyal	richa
+SQL> select agentt.agentt_city,custo.last_name,custo.first_name from agentt left join custo on agentt.agentt_id=custo.custo_id;
+AGENTT_CIT LAST_NAME	FIRST_NAME
+
+
+allahabd	goyal	richa patna
+london
+SQL> select agentt.agentt_city,custo.last_name,custo.first_name from agentt right join custo on agentt.agentt_id=custo.custo_id;
+
+AGENTT_CIT LAST_NAME	FIRST_NAME
+
+
+allahabd	goyal	richa jotwani	dhirubhai
+tomar	aryan
+maurya	ajith
+ 
+2.11.VIEWS:
+SQL> select * from custo;
+CUSTO_ID FIRST_NAME LAST_NAME
+
+
+1	aryan	tomar
+2	ajith	maurya
+3	richa	goyal
+4	dhirubhai	jotwani
+
+SQL> create view custo_view as select first_name,last_name from custo;
+View created.
+SQL> select * from custo_view;
+FIRST_NAME LAST_NAME
+
+
+aryan	tomar
+ajith	maurya
+richa		goyal dhirubhai	jotwani
+
+SQL> update custo_view set first_name='arun' where last_name='tomar';
+1 row updated.
+
+
+SQL> select * from custo_view;
+FIRST_NAME LAST_NAME
+
+
+arun	tomar
+ajith	maurya
+richa		goyal dhirubhai	jotwani
+ 
+PL/SQL PROCEDURE:
+3.1. PROGRAM    -	REVERSE THE STRING
+
+SQL> set serveroutput on SQL> declare
+2	s1 varchar(20);
+3	s2 varchar(20);
+4	c number(20);
+5	begin
+6	s1:='&string';
+7	c:=length(s1);
+8	while c>0
+9	loop
+10s2:=s2||substr(s1,c,1); 
+11	c:=c-1;
+12	end loop;
+13	dbms_output.put_line('the given string is:'||s1);
+14	dbms_output.put_line('reverse string is:'||s2);
+15	end;
+16	/
+Output :
+Enter value for string: surya old	6: s1:='&string';
+new	6: s1:='surya'; the given string is:surya reverse string is:ayrus
+
+
+PL/SQL procedure successfully completed.
+
+
+
+
+
+
+
+
+
+3.2.FIND FACTORIAL NUMBER USING RECURSIVE FUNCTION:
+SQL> create or replace function fact(n number) return integer is
+2	begin
+3	if n=1 then return 1;
+4	else
+5	return n*fact(n-1);
+6	end if;
+7	end;
+8	/
+Function created.
+
+
+SQL> set serveroutput on; SQL> declare
+2	a number;
+3	b number:=&num;
+4	begin
+5	a:=fact(b);
+6	dbms_output.put_line(a);
+7	dbms_output.put_line(b);
+8	end;
+9	/
+Enter value for num: 5
+old	3: b number:=&num; new		3: b number:=5; 120
+5
+PL/SQL procedure successfully completed.
+ 
+3.4.PREPARE STUDENT MARKSHEET:
+SQL> create table stud2(rollno number,name char(20),mark1 number,mark2 number,mark3 number,total number,avrg number);
+Table created.
+SQL>	insert into stud2 values(&rollno,'&name',&mark1,&mark2,&mark3,null,null); Enter value for rollno: 078
+Enter value for name: reo Enter value for mark1: 78 Enter value for mark2: 80 Enter value for mark3: 89
+old	1:	insert into stud2 values(&rollno,'&name',&mark1,&mark2,&mark3,null,null) new		1:		insert into stud2 values(078,'reo',78,80,89,null,null)
+1 row created.
+SQL>	/
+Enter value for rollno: 079 Enter value for name: ram Enter value for mark1: 78 Enter value for mark2: 79 Enter value for mark3: 86
+old	1:	insert into stud2 values(&rollno,'&name',&mark1,&mark2,&mark3,null,null) new		1:		insert into stud2 values(079,'ram',78,79,86,null,null)
+1 row created.
+SQL> /
+Enter value for rollno: 080 Enter value for name: john Enter value for mark1: 78 Enter value for mark2: 89 Enter value for mark3: 98
+old	1:	insert into stud2 values(&rollno,'&name',&mark1,&mark2,&mark3,null,null) new		1:		insert into stud2 values(080,'john',78,89,98,null,null)
+1 row created.
+SQL> /
+Enter value for rollno: 081 Enter value for name: revi Enter value for mark1: 78 Enter value for mark2: 88 Enter value for mark3: 91
+old	1:	insert into stud2 values(&rollno,'&name',&mark1,&mark2,&mark3,null,null) new		1:		insert into stud2 values(081,'revi',78,88,91,null,null)
+1 row created.
+SQL> /
+Enter value for rollno: 082 Enter value for name: jesi Enter value for mark1: 99 Enter value for mark2: 67 Enter value for mark3: 87
+old	1:	insert into stud2 values(&rollno,'&name',&mark1,&mark2,&mark3,null,null) new		1:		insert into stud2 values(082,'jesi',99,67,87,null,null)	1 row created.
+ 
+SQL> declare
+2	cursor c1 is select * from stud2;
+3	x stud2 % rowtype;
+4	begin
+5	open c1;
+6	loop
+7	fetch c1 into x;
+8	exit when c1%notfound;
+9	x.total:=x.mark1+x.mark2+x.mark3; 10
+11	x.avrg:=x.total/3;
+12	update stud2 set total=x.total,avrg=x.avrg where rollno=x.rollno;
+13	end loop;
+14	close c1;
+15	end;
+16	/
+PL/SQL procedure successfully completed.
+SQL> select * from stud2;
+ROLLNO NAME	MARK1	MARK2	MARK3	TOTAL	AVRG
+ 	-	 	
+
+
+
+78	reo	78	80	89	247	82.3333333
+79	ram	78	79	86	243	81
+80	john	78	89	98	265	88.3333333
+81	revi	78	88	91	257	85.6666667
+82	jesi	99	67	87	253	84.3333333
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+3.5. PROGRAM-PAY ROLL
+
+SQL> create table emp11(eno number(3),ename varchar(10),bpay number(15),hra number(15),pf number(15),gpay number(15),netpay number(15));
+
+Table created.
+
+SQL> desc emp11;
+
+Name	Null?	Type
+
+ENO	NUMBER(3)
+ENAME	VARCHAR2(10)
+BPAY	NUMBER(15)
+HRA	NUMBER(15)
+PF	NUMBER(15)
+GPAY	NUMBER(15)
+NETPAY	NUMBER(15)
+
+SQL> insert into emp11 values(&eno,'&ename',&bpay,'','','',''); Enter value for eno: 101
+Enter value for ename: ravi Enter value for bpay: 13000
+old	1: insert into emp11 values(&eno,'&ename',&bpay,'','','','')
+new	1: insert into emp11 values(101,'ravi',13000,'','','','') 1 row created.
+SQL> select*from emp11;
+
+ENO ENAME	BPAY	HRA	PF	GPAY	NETPAY
+ 	-	 		 	-	 		 		 	
+101 ravi	13000		
+102 kavi	34000		
+103 priya	23000		
+104 devi	16000		
+105 karthi	20000		
+ 
+
+
+
+SQL> set serveroutput on
+
+SQL> declare
+2	cursor a is select*from emp11;
+3	x emp11 % rowtype;
+4	begin
+5	open a;
+6	loop
+7	fetch a into x;
+8	exit when a%notfound;
+9	x.hra:=x.bpay*0.05;
+10	x.pf:=x.bpay*0.1;
+11	x.gpay:=x.bpay+x.hra;
+12	x.netpay:=x.gpay-x.pf;
+13	update emp11 set hra=x.hra,pf=x.pf,gpay=x.gpay,netpay=x.netpay where eno=x.eno;
+14	end loop;
+15	close a;
+16	end;
+17	/
+
+PL/SQL procedure successfully completed. SQL> select*from emp11;
+
+ENO ENAME	BPAY	HRA	PF	GPAY	NETPAY
+ 	 - 	 		-		-		-		-		 
+101	ravi		13000		650	1300		13650		12350
+102	kavi	34000	1700	3400	35700	32300
+103	priya	23000	1150	2300	24150	21850
+104	devi	16000	800	1600	16800	15200
+105	karthi	20000	1000 2000	21000	19000
+
+
+
+
+
